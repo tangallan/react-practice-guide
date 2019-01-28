@@ -1,28 +1,157 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Person from './Person/Person';
+import UserInput from './UserInput/UserInput';
+import UserOutput from './UserOutput/UserOutput';
+import Validation from './Validation/Validation';
+import CharComponent from './Char/Char';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    state = {
+        persons: [
+            { id: 'asdfas', name: 'Max', age: 28 },
+            { id: 'dbadc', name: 'Manu', age: 29 },
+            { id: 'hyjjh', name: 'Stephanie', age: 26 }
+        ],
+        username: 'Username1',
+        showPersons: false,
+        randomText: ''
+    };
+
+    // constructor() {
+    //   // super();
+    //   //this.sHandler = this.sHandler.bind(this);
+    // }
+
+    sHandler(evt) {
+        console.log(this); // should be undefined....UNLESS U BIND
+    }
+
+    nameChangedHandler = (evt, personid) => {
+        const personIndex = this.state.persons.findIndex(
+            (f, index) => f.id === personid
+        );
+        const person = { ...this.state.persons[personIndex] }; // THIS SPREAD will create a new object and not be a pointer
+        // const person = Object.assign({}, this.state.persons[personIndex]); // another way
+        person.name = evt.target.value;
+
+        // copy array and replace object
+        const persons = [...this.state.persons];
+        persons[personIndex] = person;
+
+        this.setState({ persons: persons });
+    };
+
+    userInputChangedHandler = evt => {
+        this.setState({
+            username: evt.target.value
+        });
+    };
+
+    togglePersonsHandler = () => {
+        const doesShow = this.state.showPersons;
+        this.setState({ showPersons: !doesShow });
+    };
+
+    deletePersonHandler = personIndex => {
+        // UPDATE THE STATE IN AN IMMUTABLE OPTIONS
+        // const persons = this.state.persons.slice(); // SLICe copies the array, since it is a reference type
+        const persons = [...this.state.persons]; // spreads out the persons (creates a new array)
+        persons.splice(personIndex, 1);
+        this.setState({ persons: persons });
+    };
+
+    randomTextHandler = evt => {
+        this.setState({ randomText: evt.target.value });
+    };
+
+    charHandler = index => {
+        const textArr = this.state.randomText.split('');
+        textArr.splice(index, 1);
+        const newText = textArr.join('');
+        this.setState({
+            randomText: newText
+        });
+    };
+
+    render() {
+        const style = {
+            backgroundColor: 'green',
+            color: 'white',
+            font: 'inherit',
+            border: '1px solid blue',
+            padding: '8px',
+            cursor: 'pointer'
+        };
+
+        let person = null;
+        if (this.state.showPersons) {
+            person = (
+                <div>
+                    {this.state.persons.map((person, index) => {
+                        return (
+                            <Person
+                                click={() => this.deletePersonHandler(index)}
+                                name={person.name}
+                                age={person.age}
+                                key={person.id}
+                                changed={evt =>
+                                    this.nameChangedHandler(evt, person.id)
+                                }
+                            />
+                        );
+                    })}
+                </div>
+            );
+            style.backgroundColor = 'red';
+        }
+
+        const classes = [];
+        if (this.state.persons.length <= 2) {
+            classes.push('red');
+        }
+        if (this.state.persons.length <= 1) {
+            classes.push('bold');
+        }
+
+        const charComponent = this.state.randomText.split('').map((s, i) => {
+            return (
+                <CharComponent
+                    thechar={s}
+                    index={i}
+                    deleteHandler={this.charHandler.bind(this, i)}
+                    key={i}
+                />
+            );
+        });
+
+        return <div className='App'>
+            <h1>This is my practice react app</h1>
+            <p className={classes.join(' ')}>This is really working!</p>
+            <button style={style} onClick={this.togglePersonsHandler}>
+                Toggle Persons
+            </button>
+            {person}
+            <p>{this.state.showPersons}</p>
+            <UserOutput username={this.state.username} />
+            <UserInput
+                username={this.state.username}
+                userInputChanged={this.userInputChangedHandler}
+            />
+            <br />
+            <input
+                type='text'
+                id='randomText'
+                onChange={this.randomTextHandler}
+                value={this.state.randomText}
+            />
+            <p>{this.state.randomText}</p>
+            <Validation textlength={this.state.randomText.length} />
+            {charComponent}
+        </div>;
+    }
 }
 
+// high ordered component
+// injecting some extra functionalities
 export default App;
