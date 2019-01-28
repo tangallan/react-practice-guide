@@ -18,4 +18,3 @@ const person = (props) => {
 };
 
 export default person;
-// 1800 300 1506 - covered ca #
