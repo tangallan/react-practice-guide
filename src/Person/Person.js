@@ -1,16 +1,21 @@
 import React from 'react';
-import "./Person.css";
+import styles from "./Person.module.css";
 
 const person = (props) => {
+    const rn = Math.random();
+    if(rn > 0.7) {
+        throw new Error('Something went wrong');
+    }
     return (
-        <div className="Person">
+        <div className={styles.Person}>
             <p onClick={props.click}>I'm, {props.name} and I am {props.age} years old!</p>
             <p>
                 {props.children}
             </p>
             <input type="text" onChange={props.changed} value={props.name} />
         </div>
-    )
+    );
 };
 
 export default person;
+// 1800 300 1506 - covered ca #

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import styles from './App.module.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import Validation from './Validation/Validation';
 import CharComponent from './Char/Char';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
     state = {
@@ -17,7 +18,7 @@ class App extends Component {
         showPersons: false,
         randomText: ''
     };
-
+    
     // constructor() {
     //   // super();
     //   //this.sHandler = this.sHandler.bind(this);
@@ -75,43 +76,40 @@ class App extends Component {
     };
 
     render() {
-        const style = {
-            backgroundColor: 'green',
-            color: 'white',
-            font: 'inherit',
-            border: '1px solid blue',
-            padding: '8px',
-            cursor: 'pointer'
-        };
-
         let person = null;
+        let btnClass = '';
+
         if (this.state.showPersons) {
             person = (
                 <div>
                     {this.state.persons.map((person, index) => {
                         return (
-                            <Person
-                                click={() => this.deletePersonHandler(index)}
-                                name={person.name}
-                                age={person.age}
-                                key={person.id}
-                                changed={evt =>
-                                    this.nameChangedHandler(evt, person.id)
-                                }
-                            />
+                            // high ordered component
+                            // key always has to be on the OUTER ELEMENT
+                            <ErrorBoundary key={person.id}>
+                                <Person
+                                    click={() => this.deletePersonHandler(index)}
+                                    name={person.name}
+                                    age={person.age}
+                                    changed={evt =>
+                                        this.nameChangedHandler(evt, person.id)
+                                    }
+                                />
+                            </ErrorBoundary>
                         );
                     })}
                 </div>
             );
-            style.backgroundColor = 'red';
+
+            btnClass = styles.Red;
         }
 
         const classes = [];
         if (this.state.persons.length <= 2) {
-            classes.push('red');
+            classes.push(styles.red);
         }
         if (this.state.persons.length <= 1) {
-            classes.push('bold');
+            classes.push(styles.bold);
         }
 
         const charComponent = this.state.randomText.split('').map((s, i) => {
@@ -125,30 +123,25 @@ class App extends Component {
             );
         });
 
-        return <div className='App'>
-            <h1>This is my practice react app</h1>
-            <p className={classes.join(' ')}>This is really working!</p>
-            <button style={style} onClick={this.togglePersonsHandler}>
-                Toggle Persons
-            </button>
-            {person}
-            <p>{this.state.showPersons}</p>
-            <UserOutput username={this.state.username} />
-            <UserInput
-                username={this.state.username}
-                userInputChanged={this.userInputChangedHandler}
-            />
-            <br />
-            <input
-                type='text'
-                id='randomText'
-                onChange={this.randomTextHandler}
-                value={this.state.randomText}
-            />
-            <p>{this.state.randomText}</p>
-            <Validation textlength={this.state.randomText.length} />
-            {charComponent}
-        </div>;
+        return (<div className={styles.App}>
+                <h1>This is my practice react app</h1>
+                <p className={classes.join(' ')}>
+                    This is really working!
+                </p>
+                <button className={btnClass}
+                    onClick={this.togglePersonsHandler}>
+                    Toggle Persons
+                </button>
+                {person}
+                <p>{this.state.showPersons}</p>
+                <UserOutput username={this.state.username} />
+                <UserInput username={this.state.username} userInputChanged={this.userInputChangedHandler} />
+                <br />
+                <input type='text' id='randomText' onChange={this.randomTextHandler} value={this.state.randomText} />
+                <p>{this.state.randomText}</p>
+                <Validation textlength={this.state.randomText.length} />
+                {charComponent}
+        </div>);
     }
 }
 
