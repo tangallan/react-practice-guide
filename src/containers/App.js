@@ -8,17 +8,6 @@ import CharComponent from '../components/Char/Char';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
-    state = {
-        persons: [
-            { id: 'asdfas', name: 'Max', age: 28 },
-            { id: 'dbadc', name: 'Manu', age: 29 },
-            { id: 'hyjjh', name: 'Stephanie', age: 26 }
-        ],
-        username: 'Username1',
-        showPersons: false,
-        randomText: ''
-    };
-
     // constructor() ---- Create
     // componentWillMount() ---- Create
     // componentWillReceiveProps()
@@ -30,10 +19,40 @@ class App extends Component {
     // componentWillUnmount()
     // render() ---- Create
 
-    // constructor() {
-    //   // super();
-    //   //this.sHandler = this.sHandler.bind(this);
-    // }
+    constructor(props) {
+        super(props);
+        //this.sHandler = this.sHandler.bind(this);
+        console.log('[App.js] ', props);
+        this.state = {
+            persons: [
+                { id: 'asdfas', name: 'Max', age: 28 },
+                { id: 'dbadc', name: 'Manu', age: 29 },
+                { id: 'hyjjh', name: 'Stephanie', age: 26 }
+            ],
+            username: 'Username1',
+            showPersons: false,
+            randomText: ''
+        };
+    }
+
+    componentWillMount() {
+        console.log('App.js, component will mount');
+    }
+
+    componentDidMount() {
+        console.log('App.js, component did mount!');
+    }
+
+    // state = {
+    //     persons: [
+    //         { id: 'asdfas', name: 'Max', age: 28 },
+    //         { id: 'dbadc', name: 'Manu', age: 29 },
+    //         { id: 'hyjjh', name: 'Stephanie', age: 26 }
+    //     ],
+    //     username: 'Username1',
+    //     showPersons: false,
+    //     randomText: ''
+    // };
 
     sHandler(evt) {
         console.log(this); // should be undefined....UNLESS U BIND
@@ -87,6 +106,7 @@ class App extends Component {
     };
 
     render() {
+        console.log('App.js, inside render()');
         let person = null;
 
         if (this.state.showPersons) {
