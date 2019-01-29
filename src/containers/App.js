@@ -18,7 +18,18 @@ class App extends Component {
         showPersons: false,
         randomText: ''
     };
-    
+
+    // constructor() ---- Create
+    // componentWillMount() ---- Create
+    // componentWillReceiveProps()
+    // shouldComponentUpdate()
+    // componentWillUpdate()
+    // componentDidUpdate()
+    // componentDidCatch()
+    // componentDidMount() ---- Create
+    // componentWillUnmount()
+    // render() ---- Create
+
     // constructor() {
     //   // super();
     //   //this.sHandler = this.sHandler.bind(this);
@@ -84,7 +95,8 @@ class App extends Component {
                     <Persons
                         persons={this.state.persons}
                         clicked={this.deletePersonHandler}
-                        changed={this.nameChangedHandler} />
+                        changed={this.nameChangedHandler}
+                    />
                 </div>
             );
         }
@@ -100,21 +112,32 @@ class App extends Component {
             );
         });
 
-        return (<div className={styles.App}>
+        return (
+            <div className={styles.App}>
                 <Cockpit
+                    appTitle={this.props.title}
                     showPersons={this.state.showPersons}
                     persons={this.state.persons}
                     clicked={this.togglePersonsHandler}
-                    />
+                />
                 {person}
                 <UserOutput username={this.state.username} />
-                <UserInput username={this.state.username} userInputChanged={this.userInputChangedHandler} />
+                <UserInput
+                    username={this.state.username}
+                    userInputChanged={this.userInputChangedHandler}
+                />
                 <br />
-                <input type='text' id='randomText' onChange={this.randomTextHandler} value={this.state.randomText} />
+                <input
+                    type='text'
+                    id='randomText'
+                    onChange={this.randomTextHandler}
+                    value={this.state.randomText}
+                />
                 <p>{this.state.randomText}</p>
                 <Validation textlength={this.state.randomText.length} />
                 {charComponent}
-        </div>);
+            </div>
+        );
     }
 }
 
