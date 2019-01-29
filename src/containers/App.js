@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import UserInput from '../components/UserInput/UserInput';
@@ -7,13 +7,13 @@ import Validation from '../components/Validation/Validation';
 import CharComponent from '../components/Char/Char';
 import Cockpit from '../components/Cockpit/Cockpit';
 
-class App extends Component {
+class App extends PureComponent {
     // constructor() ---- Create
     // componentWillMount() ---- Create
-    // componentWillReceiveProps()
-    // shouldComponentUpdate()
-    // componentWillUpdate()
-    // componentDidUpdate()
+    // componentWillReceiveProps() ---- Update
+    // shouldComponentUpdate() ---- Update (return true or false to indicate we need to update)
+    // componentWillUpdate() ---- Update
+    // componentDidUpdate() ---- Update
     // componentDidCatch()
     // componentDidMount() ---- Create
     // componentWillUnmount()
@@ -41,6 +41,38 @@ class App extends Component {
 
     componentDidMount() {
         console.log('App.js, component did mount!');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(
+            '[Update App.js] Inside componentWillReceiveProps',
+            nextProps
+        );
+    }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log(
+    //         '[Update App.js] Inside shouldComponentUpdate',
+    //         nextProps,
+    //         nextState
+    //     );
+    //     // return true;
+    //     return (
+    //         nextState.persons !== this.state.persons ||
+    //         nextState.showPersons !== this.state.showPersons
+    //     );
+    // }
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log(
+            '[Update App.js] Inside componentWillUpdate',
+            nextProps,
+            nextState
+        );
+    }
+
+    componentDidUpdate() {
+        console.log('[Update App.js] Inside componentDidUpdate');
     }
 
     // state = {
@@ -134,6 +166,12 @@ class App extends Component {
 
         return (
             <div className={styles.App}>
+                <button
+                    onClick={() => {
+                        this.setState({ showPersons: true });
+                    }}>
+                    Show Persons
+                </button>
                 <Cockpit
                     appTitle={this.props.title}
                     showPersons={this.state.showPersons}

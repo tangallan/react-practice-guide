@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person';
 
-class Persons extends Component {
+
+// PureComponent - checks ALL PROPS & STATE COMPARISON BY DEFAULT
+// DOES NOT NEED TO IMPLEMENT shouldComponentUpdate
+class Persons extends PureComponent {
     constructor(props) {
         super(props);
         //this.sHandler = this.sHandler.bind(this);
@@ -14,6 +17,26 @@ class Persons extends Component {
 
     componentDidMount() {
         console.log('Persons.js, component did mount!');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('[Update Persons.js] Inside componentWillReceiveProps', nextProps);
+    }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[Update Persons.js] Inside shouldComponentUpdate', nextProps, nextState);
+    //     return nextProps.persons !== this.props.persons ||
+    //         nextProps.changed !== this.props.changed ||
+    //         nextProps.clicked !== this.props.clicked;
+    //     //return true;
+    // }
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log('[Update Persons.js] Inside componentWillUpdate', nextProps, nextState);
+    }
+
+    componentDidUpdate() {
+        console.log('[Update Persons.js] Inside componentDidUpdate');
     }
 
     render() {
