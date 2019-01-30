@@ -42,6 +42,7 @@ class App extends PureComponent {
         };
     }
 
+    // discouraged
     componentWillMount() {
         console.log('App.js, component will mount');
     }
@@ -50,6 +51,7 @@ class App extends PureComponent {
         console.log('App.js, component did mount!');
     }
 
+    // discouraged
     componentWillReceiveProps(nextProps) {
         console.log(
             '[Update App.js] Inside componentWillReceiveProps',
@@ -70,6 +72,7 @@ class App extends PureComponent {
     //     );
     // }
 
+    // discouraged
     componentWillUpdate(nextProps, nextState) {
         console.log(
             '[Update App.js] Inside componentWillUpdate',
@@ -77,6 +80,22 @@ class App extends PureComponent {
             nextState
         );
     }
+
+    // have to have static
+    static getDerivedStateFromProps(nextProps, prevState) {
+        // executed whenever props are updated, gives you the chance to update the state?
+        console.log('[App.js] Inside getDerivedStateFromProps', nextProps, prevState);
+
+        return prevState;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        // get the snapshot of your DOM before it updates
+        console.log('[App.js] Inside getSnapshotBeforeUpdate', prevProps, prevState);
+
+        return null;
+    }
+    
 
     componentDidUpdate() {
         console.log('[Update App.js] Inside componentDidUpdate');
@@ -123,18 +142,18 @@ class App extends PureComponent {
 
         // DO NOT EVER DO THIS, BAD PRACTICE!
         // SET STATE IS ASYNC, WHICH MEANS WE CAN RELY ON THIS.STATE AS BEING THE ACTUAL STATE
-        // this.setState({ 
+        // this.setState({
         //     showPersons: !doesShow,
         //     toggleClicked: this.state.toggleClicked + 1
         // });
 
-        // THIS WAY WE CAN ENSURE WHAT WAS PREVIOUS 
+        // THIS WAY WE CAN ENSURE WHAT WAS PREVIOUS
         // THIS IS HOW WE SHOULD MUTATE STATE
         this.setState((prevState, props) => {
             return {
                 showPersons: !doesShow,
                 toggleClicked: prevState.toggleClicked + 1
-            }
+            };
         });
     };
 
@@ -161,7 +180,7 @@ class App extends PureComponent {
 
     loginHandler = () => {
         this.setState({ authenticated: true });
-    }
+    };
 
     render() {
         console.log('App.js, inside render()');
@@ -206,7 +225,7 @@ class App extends PureComponent {
                     login={this.loginHandler}
                 />
                 <AuthContext.Provider value={this.state.authenticated}>
-                {person}
+                    {person}
                 </AuthContext.Provider>
                 <UserOutput username={this.state.username} />
                 <UserInput
