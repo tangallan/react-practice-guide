@@ -7,6 +7,9 @@ import Validation from '../components/Validation/Validation';
 import CharComponent from '../components/Char/Char';
 import Cockpit from '../components/Cockpit/Cockpit';
 
+// import WithClass from '../hoc/WithClass';
+import withClassV2 from '../hoc/WithClassV2';
+
 class App extends PureComponent {
     // constructor() ---- Create
     // componentWillMount() ---- Create
@@ -165,7 +168,7 @@ class App extends PureComponent {
         });
 
         return (
-            <div className={styles.App}>
+            <>
                 <button
                     onClick={() => {
                         this.setState({ showPersons: true });
@@ -194,11 +197,12 @@ class App extends PureComponent {
                 <p>{this.state.randomText}</p>
                 <Validation textlength={this.state.randomText.length} />
                 {charComponent}
-            </div>
+            </>
         );
     }
 }
 
 // high ordered component
 // injecting some extra functionalities
-export default App;
+// H.O.C - method version (withClassV2)
+export default withClassV2(App, styles.App);

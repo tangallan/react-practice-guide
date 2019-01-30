@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styles from './Person.module.css';
+// import WithClass from '../../../hoc/WithClass';
+import withClassV2 from '../../../hoc/WithClassV2';
 
 class Person extends Component {
     constructor(props) {
@@ -17,9 +19,10 @@ class Person extends Component {
     }
 
     render() {
+        // console.log('Person.js inside render()');
         console.log('Person.js inside render()');
         return (
-            <div className={styles.Person}>
+            <>
                 <p onClick={this.props.click}>
                     I'm, {this.props.name} and I am {this.props.age} years old!
                 </p>
@@ -29,8 +32,35 @@ class Person extends Component {
                     onChange={this.props.changed}
                     value={this.props.name}
                 />
-            </div>
+            </>
         );
+        // return (
+        //     <WithClass classes={styles.Person}>
+        //         <p onClick={this.props.click}>
+        //             I'm, {this.props.name} and I am {this.props.age} years old!
+        //         </p>
+        //         <p>{this.props.children}</p>
+        //         <input
+        //             type='text'
+        //             onChange={this.props.changed}
+        //             value={this.props.name}
+        //         />
+        //     </WithClass>
+        // );
+        // we could return an array of elements
+        // but each element needs a key
+        // for example
+        // return [
+        //     <p key="1" onClick={this.props.click}>
+        //         I'm, {this.props.name} and I am {this.props.age} years old!
+        //         </p>,
+        //     <p key="2">{this.props.children}</p>,
+        //     <input key="3"
+        //         type='text'
+        //         onChange={this.props.changed}
+        //         value={this.props.name}
+        //     />
+        // ]
     }
 }
 //  = (props) => {
@@ -41,4 +71,4 @@ class Person extends Component {
 
 // };
 
-export default Person;
+export default withClassV2(Person, styles.Person);
