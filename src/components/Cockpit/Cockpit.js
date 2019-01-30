@@ -35,4 +35,6 @@ const cockpit = props => {
     // </>; 
 };
 
-export default cockpit;
+// React.memo acts like PureComponent for functional components
+// shallow level check
+export default React.memo(cockpit);
