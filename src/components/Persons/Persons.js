@@ -9,6 +9,7 @@ class Persons extends PureComponent {
         super(props);
         //this.sHandler = this.sHandler.bind(this);
         console.log('[Persons.js] ', props);
+        this.lastPersonRef = React.createRef();
     }
 
     componentWillMount() {
@@ -17,6 +18,7 @@ class Persons extends PureComponent {
 
     componentDidMount() {
         console.log('Persons.js, component did mount!');
+        this.lastPersonRef.current.focus();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -44,6 +46,7 @@ class Persons extends PureComponent {
         return this.props.persons.map((person, index) => {
             return (
                 <Person
+                    ref={this.lastPersonRef}
                     click={() => this.props.clicked(index)}
                     name={person.name}
                     age={person.age}

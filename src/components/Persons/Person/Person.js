@@ -9,6 +9,7 @@ class Person extends Component {
         super(props);
         //this.sHandler = this.sHandler.bind(this);
         console.log('[Person.js] ', props);
+        this.inputElement = React.createRef();
     }
 
     componentWillMount() {
@@ -17,9 +18,13 @@ class Person extends Component {
 
     componentDidMount() {
         console.log('Person.js, component did mount!');
-        if (this.props.position === 0) {
-            this.inputElement.focus();
-        }
+    }
+
+    focus() {
+        // if (this.props.position === 0) {
+            
+        // }
+        this.inputElement.current.focus(); // current, lookup docs for React.createRef
     }
 
     // NOTE ref is only for stateful components
@@ -33,7 +38,7 @@ class Person extends Component {
                 </p>
                 <p>{this.props.children}</p>
                 <input
-                    ref={(inp) => { this.inputElement = inp; }}
+                    ref={this.inputElement}
                     type='text'
                     onChange={this.props.changed}
                     value={this.props.name}
