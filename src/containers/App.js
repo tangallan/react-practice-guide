@@ -34,7 +34,8 @@ class App extends PureComponent {
             ],
             username: 'Username1',
             showPersons: false,
-            randomText: ''
+            randomText: '',
+            toggleClicked: 0
         };
     }
 
@@ -116,7 +117,22 @@ class App extends PureComponent {
 
     togglePersonsHandler = () => {
         const doesShow = this.state.showPersons;
-        this.setState({ showPersons: !doesShow });
+
+        // DO NOT EVER DO THIS, BAD PRACTICE!
+        // SET STATE IS ASYNC, WHICH MEANS WE CAN RELY ON THIS.STATE AS BEING THE ACTUAL STATE
+        // this.setState({ 
+        //     showPersons: !doesShow,
+        //     toggleClicked: this.state.toggleClicked + 1
+        // });
+
+        // THIS WAY WE CAN ENSURE WHAT WAS PREVIOUS 
+        // THIS IS HOW WE SHOULD MUTATE STATE
+        this.setState((prevState, props) => {
+            return {
+                showPersons: !doesShow,
+                toggleClicked: prevState.toggleClicked + 1
+            }
+        });
     };
 
     deletePersonHandler = personIndex => {
