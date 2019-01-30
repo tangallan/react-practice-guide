@@ -23,6 +23,7 @@ const cockpit = props => {
             <button className={btnClass} onClick={props.clicked}>
                 Toggle Persons
             </button>
+            <button onClick={props.login}>Log in</button>
         </Aux>;
     // or we can do this (which is Fragment a built-in "Aux" by react 16.2+)
     // return <>
